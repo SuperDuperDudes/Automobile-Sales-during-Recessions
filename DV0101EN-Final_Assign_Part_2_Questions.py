@@ -34,29 +34,25 @@ year_list = [i for i in range(1980, 2024, 1)]
 #---------------------------------------------------------------------------------------
 # Create the layout of the app
 app.layout = html.Div([
-    #TASK 2.1 Add title to the dashboard
-    html.H1("Automobile Sales Statistics Dashboard", 
-    style={'textAlign': 'center', 'color': '#503D36', 'font-size': 24}),#May include style for title
-    html.P("Select a 'statistical report type' and 'Year' to create graphs", style={'textAlign': 'center', 'color': '#503D36', 'font-size': 18}),
-    html.Div([#TASK 2.2: Add two dropdown menus
+    html.H1("Automobile Statistics Dashboard"),
+    html.Div([
         html.Label("Select Statistics:"),
         dcc.Dropdown(
             id='dropdown-statistics',
             options=dropdown_options,
-            value='Select Statistics',
-            placeholder='Select a report type',
-            style={'width': '80%', 'padding': 3, 'textAlign': 'center', 'font-size': 20}
-        )     
+            value='Select Statistics'
+        )
     ]),
     html.Div(dcc.Dropdown(
             id='select-year',
             options=[{'label': i, 'value': i} for i in year_list],
-            value='Select Year'
+            value='Select-year'
         )),
-    html.Div([#TASK 2.3: Add a division for output display
-    html.Div(id='output-container', className='chart-grid', style={'display':'flex'}),
+    
+    html.Div([
+    html.Div(id='output-container', className='chart-grid', style={'display': 'flex'}),
     ])
-])
+
 #TASK 2.4: Creating Callbacks
 # Define the callback function to update the input container based on the selected statistics
 @app.callback(
@@ -112,7 +108,7 @@ def update_output_container(selected_statistics, input_year):
 # Plot 4 bar chart for the effect of unemployment rate on vehicle type and sales
         unemp_rate = recession_data.groupby(['Vehicle_Type','unemployment_rate'])['Automobile_Sales'].mean().reset_index()
         R_chart4 = dcc.Graph(figure=px.bar(unemp_rate,
-                x='Vehicle_Type',
+                x='unemployment_rate',
                 y='Automobile_Sales',
                 color='Vehicle_Type',
                 labels={'unemployment_rate': 'Unemployment Rate', 'Automobile_Sales': 'Average Automobile Sales'},
